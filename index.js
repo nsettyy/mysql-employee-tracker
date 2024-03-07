@@ -50,7 +50,6 @@ function mainMenu() {
             updateEmployeeRole();
             break;
         case 'Exit':
-
             // Close the database connection before exiting
             db.end((err) => {
                 if (err) {
