@@ -1,26 +1,40 @@
-DROP DATABASE IF EXISTS employeesDB;
-CREATE DATABASE employeesDB;
-USE employeesDB;
+-- Drop the existing database if it exists
+DROP DATABASE IF EXISTS business_db;
 
+-- Create a new database
+CREATE DATABASE business_db;
+
+-- Use the newly created database
+USE business_db;
+
+-- Create a 'department' table
 CREATE TABLE department (
-  id INT NOT NULL AUTO_INCREMENT,
-  name VARCHAR(45) NULL,
-  PRIMARY KEY (id)
+    departmentId INT AUTO_INCREMENT PRIMARY KEY,
+    departmentName VARCHAR(30) NOT NULL,
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Create a 'role' table
 CREATE TABLE role (
-  id INT NOT NULL AUTO_INCREMENT,
-  title VARCHAR(45) NULL,
-  salary DECIMAL(10.3) NULL,
-  department_id INT NULL,
-  PRIMARY KEY (id)
+    roleId INT AUTO_INCREMENT PRIMARY KEY,
+    roleTitle VARCHAR(30) NOT NULL,
+    roleSalary DECIMAL NOT NULL,
+    departmentId INT NOT NULL,
+    FOREIGN KEY (departmentId) REFERENCES department(departmentId),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
 
+-- Create an 'employee' table
 CREATE TABLE employee (
-  id INT NOT NULL AUTO_INCREMENT,
-  first_name VARCHAR(45) NULL,
-  last_name VARCHAR(45) NULL,
-  role_id INT NULL,
-  manager_id INT NULL,
-  PRIMARY KEY (id)
+    employeeId INT AUTO_INCREMENT PRIMARY KEY,
+    firstName VARCHAR(30) NOT NULL,
+    lastName VARCHAR(30) NOT NULL,
+    roleId INT NOT NULL,
+    managerId INT,
+    FOREIGN KEY (roleId) REFERENCES role(roleId),
+    FOREIGN KEY (managerId) REFERENCES employee(employeeId),
+    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    updatedAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP
 );
